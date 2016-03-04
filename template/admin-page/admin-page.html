@@ -1,0 +1,114 @@
+<article ng-class="{'hidden':AdminPageCtrl.hidePage}">
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading" ng-click="collapse.header = !collapse.header">Шапка</div>
+                    <div class="panel-body" uib-collapse="collapse.header">
+                        <div class="form-group">
+                            <label>Имя</label>
+                            <input type="text" class="form-control" ng-model="dataModel.header.name" ng-blur="save()">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Текст с лева</label>
+                            <input type="text" class="form-control" ng-model="dataModel.header.profession_left" ng-blur="save()">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Текст с права</label>
+                            <input type="text" class="form-control" ng-model="dataModel.header.profession_right" ng-blur="save()">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Подпись</label>
+                            <input type="text" class="form-control" ng-model="dataModel.header.credo" ng-blur="save()">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Фоновое изображение</label>
+                            <img ng-src="{{AdminPageCtrl.data.header.background}}" style="width: 400px">
+                            <input type="file" ng-model="AdminPageCtrl.headerBackground" onchange="angular.element(this).scope().loadBackgroundHeader(this)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading" ng-click="collapse.about_me = !collapse.about_me">Обо мне</div>
+                    <div class="panel-body" uib-collapse="collapse.about_me">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading" ng-click="collapse.about_me_description = !collapse.about_me_description">Описание</div>
+                            <div class="panel-body" uib-collapse="collapse.about_me_description">
+                                <article ng-controller="DescriptionCtrl as DescriptionCtrl">
+                                    <div ng-repeat="description in dataModel.about_me.descrioption">
+                                        <div class="form-group">
+                                            <label>Заголовок</label>
+                                            <input type="text" class="form-control" ng-model="description.title" ng-blur="save()">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Текст</label>
+                                            <textarea class="form-control" rows="5" ng-model="description.text" ng-blur="save()"></textarea>
+                                        </div>
+                                        <button class="btn btn-primary" ng-click="DescriptionCtrl.remove($index)">Удалить</button>
+                                    </div>
+                                    <div class="pull-right">
+                                        <button class="btn btn-info" ng-click="DescriptionCtrl.add()">Добавить</button>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                        <div class="panel panel-primary">
+                            <div class="panel-heading" ng-click="collapse.about_me_starts = !collapse.about_me_starts">Особенности</div>
+                            <div class="panel-body" uib-collapse="collapse.about_me_starts">
+                                <article ng-controller="StarsCtrl as StarsCtrl">
+                                    <div ng-repeat="star in dataModel.about_me.stars">
+                                        <div class="form-group">
+                                            <label>Текст</label>
+                                            <input type="text" class="form-control" ng-model="star.title" ng-blur="save()">
+                                        </div>
+                                        <button class="btn btn-primary" ng-click="StarsCtrl.remove($index)">Удалить</button>
+                                    </div>
+                                    <div class="pull-right">
+                                        <button class="btn btn-info" ng-click="StarsCtrl.add()">Добавить</button>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                        <div class="panel panel-primary">
+                            <div class="panel-heading" ng-click="collapse.about_me_information = !collapse.about_me_information">Информация</div>
+                            <div class="panel-body" uib-collapse="collapse.about_me_information">
+                                <article ng-controller="InformationCtrl as InformationCtrl">
+                                    <div ng-repeat="target in dataModel.about_me.information">
+                                        <div class="form-group">
+                                            <label>Заголовок</label>
+                                            <input type="text" class="form-control" ng-model="target.key" ng-blur="save()">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Значение</label>
+                                            <input type="text" class="form-control" ng-model="target.value" ng-blur="save()">
+                                        </div>
+                                        <button class="btn btn-primary" ng-click="InformationCtrl.remove($index)">Удалить</button>
+                                    </div>
+                                    <div class="pull-right">
+                                        <button class="btn btn-info" ng-click="InformationCtrl.add()">Добавить</button>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                        <div class="panel panel-primary">
+                            <div class="panel-heading" ng-click="collapse.about_me_photo = !collapse.about_me_photo">Фото</div>
+                            <div class="panel-body" uib-collapse="collapse.about_me_photo">
+                                <div class="form-group">
+                                    <img ng-src="{{AdminPageCtrl.data.about_me.photo}}" style="width: 400px">
+                                    <input type="file" ng-model="AdminPageCtrl.photo" onchange="angular.element(this).scope().loadPhoto(this)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
