@@ -98,6 +98,20 @@ if(!(b=e)){var g={height:i.innerHeight,width:i.innerWidth};if(!g.height&&((b=h.c
             var width = img.width;
             var height = img.height;
 
+            if(MAX_WIDTH == null || MAX_HEIGHT == null) {
+                var resolution = width / height;
+                console.log("Resolution: "+resolution);
+
+                if(MAX_WIDTH == null) {
+                    MAX_WIDTH = MAX_HEIGHT * width / height;
+                }
+                if(MAX_HEIGHT == null) {
+                    MAX_HEIGHT = MAX_WIDTH * height / width;
+                }
+
+                console.log("MAX_WIDTH: "+MAX_WIDTH+ " | MAX_HEIGHT: "+MAX_HEIGHT);
+            }
+
             if (width > height) {
                 if (width > MAX_WIDTH) {
                     height *= MAX_WIDTH / width;
@@ -111,9 +125,10 @@ if(!(b=e)){var g={height:i.innerHeight,width:i.innerWidth};if(!g.height&&((b=h.c
             }
             canvas.width = width;
             canvas.height = height;
+            console.log("Width: "+width+" | Height:"+height);
             var ctx = canvas.getContext("2d");
             ctx.drawImage(img, 0, 0, width, height);
-            _cb(canvas.toDataURL());
+            _cb(canvas.toDataURL("image/jpeg"));
         };
         reader.readAsDataURL(fileRes);
     }
@@ -144,28 +159,25 @@ if(!(b=e)){var g={height:i.innerHeight,width:i.innerWidth};if(!g.height&&((b=h.c
         };
 
         $scope.loadBackgroundHeader = function (element) {
-            getResizedImage(element.files[0], 100, 100, function (imageBase64) {
-                console.log(imageBase64);
+            getResizedImage(element.files[0], null, 405, function (imageBase64) {
                 self.data.header.background = imageBase64;
-                //self.data.$save().then(function () {
-                //    toastr.success(SAVED, SAVED_MESSAGE);
-                //}, function () {
-                //    toastr.error(ERROR, ERROR_MESSAGE);
-                //});
-            });
-        };
-
-        $scope.loadPhoto = function (element) {
-            var fileReader = new FileReader();
-            fileReader.onload = function (res) {
-                self.data.about_me.photo = res.target.result;
                 self.data.$save().then(function () {
                     toastr.success(SAVED, SAVED_MESSAGE);
                 }, function () {
                     toastr.error(ERROR, ERROR_MESSAGE);
                 });
-            };
-            fileReader.readAsDataURL(element.files[0]);
+            });
+        };
+
+        $scope.loadPhoto = function (element) {
+            getResizedImage(element.files[0], null, 580, function (imageBase64) {
+                self.data.about_me.photo = imageBase64;
+                self.data.$save().then(function () {
+                    toastr.success(SAVED, SAVED_MESSAGE);
+                }, function () {
+                    toastr.error(ERROR, ERROR_MESSAGE);
+                });
+            });
         };
 
         AuthSrvc.doAuth(function () {
@@ -550,6 +562,17 @@ if(!(b=e)){var g={height:i.innerHeight,width:i.innerWidth};if(!g.height&&((b=h.c
     MainPageCtrl.$inject = ["DataSrvc", "$scope"];
     
     app.controller("MainPageCtrl", MainPageCtrl);
+}());
+(function () {
+    var app = angular.module("app");
+
+    var GalleryController = function () {
+
+    };
+
+    GalleryController.$inject = [];
+
+    app.controller("GalleryController", GalleryController);
 }());
 (function () {
     var app = angular.module("app");
